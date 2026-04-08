@@ -1,40 +1,119 @@
+:root {
+    --bg-color: #f0f4f8;
+    --container-bg: #ffffff;
+    --text-color: #333;
+    --secondary-text-color: #666;
+    --border-color: #dcdcdc;
+    --divider-color: #e0e0e0;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --button-bg: #007bff;
+    --button-text: #ffffff;
+    --toggle-bg: #a9a9a9;
+    --toggle-slider: #ffffff;
+    --toggle-bg-active: #007bff;
+    --icon-color: #007bff;
+    --icon-color-moon: #f1c40f;
+}
+
+body.dark-mode {
+    --bg-color: #121212;
+    --container-bg: #1e1e1e;
+    --text-color: #e0e0e0;
+    --secondary-text-color: #a0a0a0;
+    --border-color: #444;
+    --divider-color: #333;
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --button-bg: #0056b3;
+    --toggle-bg-active: #0056b3;
+    --icon-color: #ffffff;
+}
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #e3f2fd;
+    background-color: var(--bg-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    padding: 20px 0;
+    transition: background-color 0.3s ease;
 }
 
 .app-container {
-    background-color: #ffffff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: var(--container-bg);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px var(--shadow-color);
     text-align: center;
+    width: 320px;
+    transition: background-color 0.3s ease;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    color: var(--text-color);
+    margin: 0;
+    font-size: 24px;
 }
 
 .input-container {
-    margin: 15px 0;
+    margin: 20px 0;
 }
 
 #city-input {
-    padding: 8px;
-    border: 1px solid #bbdefb;
+    padding: 10px;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     font-size: 16px;
+    width: 60%;
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }
 
 #search-button {
-    padding: 8px 12px;
-    background-color: #2196f3;
-    color: white;
+    padding: 10px 15px;
+    background-color: var(--button-bg);
+    color: var(--button-text);
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+}
+
+.divider {
+    border: none;
+    height: 1px;
+    background-color: var(--divider-color);
+    margin: 20px 0;
+}
+
+#current-weather {
+    margin-top: 10px;
+}
+
+#weather-icon {
+    width: 120px;
+    height: 120px;
+}
+
+#weather-label {
+    font-size: 18px;
+    color: var(--secondary-text-color);
+    text-transform: capitalize;
+    margin: 5px 0 10px 0;
+}
+
+#temperature {
+    font-size: 28px;
+    font-weight: bold;
+    color: var(--text-color);
+    margin: 0;
 }
 
 .hidden {
@@ -42,6 +121,110 @@ body {
 }
 
 #error-container {
-    color: #d32f2f;
-    margin-top: 10px;
+    color: #e53935;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* --- Forecast Styles --- */
+#forecast-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    overflow-x: auto; /* for smaller screens */
+}
+
+.forecast-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--secondary-text-color);
+    font-size: 14px;
+}
+
+.forecast-item img {
+    width: 50px;
+    height: 50px;
+}
+
+.forecast-item .day {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* --- Redesigned Toggle Switch Styles --- */
+.theme-switcher {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.theme-switcher input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.theme-switcher label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--toggle-bg);
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.theme-switcher label:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--toggle-slider);
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + label {
+    background-color: var(--toggle-bg-active);
+}
+
+input:checked + label:before {
+    transform: translateX(26px);
+}
+
+/* --- Icon Positioning and Visibility --- */
+.theme-switcher svg {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.icon-sun {
+    left: 8px;
+    stroke: var(--icon-color);
+    opacity: 1;
+}
+
+.icon-moon {
+    right: 8px;
+    stroke: var(--icon-color-moon);
+    opacity: 0;
+}
+
+input:checked + label .icon-sun {
+    opacity: 0;
+}
+
+input:checked + label .icon-moon {
+    opacity: 1;
 }
